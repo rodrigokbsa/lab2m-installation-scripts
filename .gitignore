@@ -1,1 +1,4 @@
+.gitignore
 gondor-printer_install.sh
+users_informatics.sh
+users_mcomp.sh
