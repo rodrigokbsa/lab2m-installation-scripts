@@ -18,7 +18,7 @@ echo "deb http://download.virtualbox.org/virtualbox/debian $distro_codename cont
 apt update
 apt install -y virtualbox-5.2
 VBoxManage extpack uninstall "Oracle VM VirtualBox Extension Pack"
-wget -c http://download.virtualbox.org/virtualbox/5.2.2/Oracle_VM_VirtualBox_Extension_Pack-5.2.2-119230.vbox-extpack
-VBoxManage extpack install Oracle_VM_VirtualBox_Extension_Pack-5.2.2-119230.vbox-extpack --accept-license=56be48f923303c8cababb0bb4c478284b688ed23f16d775d729b89a2e8e5f9eb
-rm Oracle_VM_VirtualBox_Extension_Pack-5.2.2-119230.vbox-extpack
+wget -c http://download.virtualbox.org/virtualbox/5.2.4/Oracle_VM_VirtualBox_Extension_Pack-5.2.4-119785.vbox-extpack
+VBoxManage extpack install Oracle_VM_VirtualBox_Extension_Pack-5.2.4-119785.vbox-extpack --accept-license=56be48f923303c8cababb0bb4c478284b688ed23f16d775d729b89a2e8e5f9eb
+rm Oracle_VM_VirtualBox_Extension_Pack-5.2.4-119785.vbox-extpack
 echo "### Fim da instalação do VirtualBox 5.2 ###"
