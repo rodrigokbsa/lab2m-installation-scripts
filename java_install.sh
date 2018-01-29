@@ -21,13 +21,14 @@ if [ "$distro" = "Debian" ]; then
   apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys EEA14886
 
 elif [ "$distro" = "Ubuntu" ]; then
-  add-apt-repository ppa:webupd8team/java
+  add-apt-repository ppa:webupd8team/java -y
 elif [ "$distro" = "LinuxMint" ]; then
-  add-apt-repository ppa:webupd8team/java
+  add-apt-repository ppa:webupd8team/java -y
 else
   echo "Operating System doesn't known by script"
 fi
 
 apt update
-apt install oracle-java8-installer
-apt install oracle-java8-set-default
+echo "oracle-java8-installer shared/accepted-oracle-license-v1-1 select true" | debconf-set-selections
+apt install oracle-java8-installer -y
+apt install oracle-java8-set-default -y
