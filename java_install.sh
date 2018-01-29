@@ -10,6 +10,7 @@ if [ "$distro" = "Debian" ]; then
     apt remove gnupg
     apt install --reinstall gnupg2
     apt install dirmngr
+  fi
 
   echo -e \
   "#Oracle Java 8 Repository
@@ -18,6 +19,7 @@ if [ "$distro" = "Debian" ]; then
   > /etc/apt/sources.list.d/java8.list
 
   apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys EEA14886
+
 elif [ "$distro" = "Ubuntu" ]; then
   add-apt-repository ppa:webupd8team/java
 elif [ "$distro" = "LinuxMint" ]; then
