@@ -1,5 +1,5 @@
 #!/bin/sh
-# Autor: Rodrigo Fioravante
+# Author: Rodrigo Fioravante
 # Email: kbsafioravante@gmail.com
 
 #Getting the distro name
@@ -12,10 +12,13 @@ apt install -y build-essential linux-source linux-headers-$(uname -r) linux-imag
 #sudo software-sources - Linux Mint
 apt source linux-image-$(uname -r)
 
-# You must stop any X services like gdm, gdm3 or lightdm for example. In this case we're using Lightdm in Linux Mint 18.2
-#service gdm stop
-#service gdm3 stop
-#service lightdm stop
+# You must stop any X services like gdm, gdm3 or lightdm for example.
+#cat /etc/X11/default-display-manager
+service mdm stop
+service kdm stop
+service gdm stop
+service gdm3 stop
+service lightdm stop
 
 # Getting Cuda 8
 wget -c https://developer.nvidia.com/compute/cuda/8.0/Prod2/local_installers/cuda_8.0.61_375.26_linux-run
