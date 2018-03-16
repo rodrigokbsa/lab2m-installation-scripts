@@ -8,8 +8,8 @@ wget -c http://www.ks.uiuc.edu/Research/vmd/vmd-1.9.2/files/final/vmd-1.9.2.bin.
 tar -vzxf vmd-1.9.2.bin.LINUXAMD64-RHEL5.opengl.tar.gz
 
 cd vmd-1.9.2
-sed -i 's/^$install_bin_dir=.*/$install_bin_dir="/opt/vmd/bin"/' configure
-sed -i 's/^$install_library_dir=.*/$install_library_dir="/opt/vmd/lib"/' configure
+sed -i 's/$install_bin_dir=.*/$install_bin_dir="\/opt\/vmd\/bin"/' configure
+sed -i 's/$install_library_dir=.*/$install_library_dir="\/opt\/vmd\/lib"/' configure
 
 ./configure
 
