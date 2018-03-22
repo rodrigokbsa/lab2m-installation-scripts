@@ -17,4 +17,4 @@ wget -q http://download.opensuse.org/repositories/home:/strycore/xUbuntu_$ver/Re
 
 apt update
 
-apt install lutris
+apt install -y lutris
