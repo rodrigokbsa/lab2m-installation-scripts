@@ -12,13 +12,16 @@ distro="$(lsb_release --id --short)"
 
 if [ "$distro" = "Debian" ]; then
   echo 'Installing Debian dependencies'
-  apt install openmpi-common openmpi-bin libopenmpi-dev libblacs-openmpi1 libopenmpi1.6 libnetcdf-dev netcdf-bin libscalapack-openmpi1 libscalapack-mpi-dev libblas-common libblas-dev liblapack-dev -y
+  # Debian 8 Dependencies
+  apt install -y gfortran openmpi-common openmpi-bin libopenmpi-dev libblacs-openmpi1 libopenmpi1.6 libnetcdf-dev netcdf-bin libscalapack-openmpi1 libscalapack-mpi-dev libblas-common libblas-dev liblapack-dev
+  # Debian 9 Dependencies
+  apt install -y gfortran openmpi-common openmpi-bin libopenmpi-dev libblacs-openmpi1 libnetcdf-dev netcdf-bin libnetcdff-dev libscalapack-openmpi1 libscalapack-mpi-dev libblas-common libblas-dev liblapack-dev
 elif [ "$distro" = "Ubuntu" ]; then
   echo 'Installing Ubuntu dependencies'
-  apt install openmpi-common openmpi-bin libopenmpi-dev libblacs-mpi-dev libopenmpi1.6 libnetcdf-dev netcdf-bin libnetcdff-dev libscalapack-mpi-dev libblas-dev liblapack-dev -y
+  apt install -y gfortran openmpi-common openmpi-bin libopenmpi-dev libblacs-mpi-dev libopenmpi1.6 libnetcdf-dev netcdf-bin libnetcdff-dev libscalapack-mpi-dev libblas-dev liblapack-dev
 elif [ "$distro" = "LinuxMint" ]; then
   echo 'Installing Linux Mint dependencies'
-  apt install openmpi-common openmpi-bin libopenmpi-dev libblacs-mpi-dev libopenmpi1.6 libnetcdf-dev netcdf-bin libnetcdff-dev libscalapack-mpi-dev libblas-dev liblapack-dev -y
+  apt install -y gfortran openmpi-common openmpi-bin libopenmpi-dev libblacs-mpi-dev libopenmpi1.6 libnetcdf-dev netcdf-bin libnetcdff-dev libscalapack-mpi-dev libblas-dev liblapack-dev
 else
   echo "Operating System doesn't known by script"
   echo 'Browse for the dependencies to be installed.'
