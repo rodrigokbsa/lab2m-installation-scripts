@@ -1,5 +1,5 @@
 #!/bin/sh
-# Autor: Rodrigo Fioravante
+# Author: Rodrigo Fioravante
 # Email: kbsafioravante@gmail.com
 
 distro="$(lsb_release --id --short)"
