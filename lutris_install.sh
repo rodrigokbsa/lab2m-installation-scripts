@@ -1,6 +1,7 @@
 #!/bin/sh
 # Autor: Rodrigo Fioravante
 # Email: kbsafioravante@gmail.com
+# Tested in: LinuxMint 18.3
 
 # Lutris installation
 
