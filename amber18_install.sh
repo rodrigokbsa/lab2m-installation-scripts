@@ -1,7 +1,7 @@
 #!/bin/sh
 # Author: Rodrigo Fioravante
 # Email: kbsafioravante@gmail.com
-# Not tested
+# Tested in LinuxMint 18.3
 
 ### Amber18 (optional) + AmberTools18 ###
 echo "### Iniciando instalação do AmberTools18 + Amber18 ###"
@@ -11,7 +11,7 @@ amber="true"
 mpi="true"
 cuda="true"
 cuda_version="cuda9"
-gpus=2
+gpus=1
 
 place=`pwd`
 mpi_cores=$(grep -c ^processor /proc/cpuinfo)
@@ -23,14 +23,16 @@ if [ "$amber" = "true" ]; then
   #wget Amber18.tar.bz2 # Get Amber18
   #wget AmberTools18.tar.bz2 Get AmberTools18
   tar xvfj AmberTools18.tar.bz2 -C /opt/
-  tar xvfj Amber18.tgz -C /opt/
+  tar -vzxf Amber18.tgz
+  cp -rv Amber18/* /opt/amber18
+  rm -r Amber18/
 else
   #wget AmberTools18.tar.bz2 Get AmberTools18
   tar xvfj AmberTools18.tar.bz2 -C /opt/
 fi
 
 # Gnu - This one you ever need to compile!
-export AMBERHOME=/opt/Amber18
+export AMBERHOME=/opt/amber18
 cd $AMBERHOME
 yes | ./configure gnu
 source $AMBERHOME/amber.sh
@@ -74,5 +76,5 @@ rm Amber*
 
 echo "Para que as váriáveis do Amber funcionem corretamente para todos os \
 usuários é necessário reiniciar o computador."
-echo "### Fim da instalação do AmberTools17 e Amber16 ###"
+echo "### Fim da instalação do AmberTools18 e Amber18 ###"
 ####################
