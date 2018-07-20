@@ -1,5 +1,5 @@
-#!/bin/sh
-# Autor: Rodrigo Fioravante
+#!/bin/bash
+# Author: Rodrigo Fioravante
 # Email: kbsafioravante@gmail.com
 
 ### Amber16 (optional) + AmberTools17 ###
