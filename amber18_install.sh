@@ -2,6 +2,7 @@
 # Author: Rodrigo Fioravante
 # Email: kbsafioravante@gmail.com
 
+place="$PWD"
 HOW_TO_USE="
 Usage: $0 [-a | -m | -c | -g | -h | -v]
 -a | --amber            Amber18 compiling instead of just AmberTools18
@@ -11,7 +12,7 @@ Usage: $0 [-a | -m | -c | -g | -h | -v]
 -h | --help             Show this message
 -v | --version          Show the program version
 
-Example: sudo ./amber18_install.sh --amber --mpi --cuda --gpu 2
+Example: sudo $0 --amber --mpi --cuda --gpu 2
 "
 
 check_gpus() {
@@ -55,9 +56,6 @@ while test -n "$1"; do
 
   shift
 done
-
-check_gpus "$gpus"
-place="$PWD"
 
 ### Amber18 (optional) + AmberTools18 ###
 echo "### Starting Amber installation ###"
