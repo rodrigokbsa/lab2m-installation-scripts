@@ -2,8 +2,8 @@
 # Author: Rodrigo Fioravante
 # Email: kbsafioravante@gmail.com
 
-### Cuda 9 ###
-echo "### Starting Cuda 9 installation ###"
+### Cuda ###
+echo "### Starting Cuda installation ###"
 
 HOW_TO_USE="
 Usage: $0 [ -c | -h | -v ]
@@ -54,21 +54,23 @@ apt install -y build-essential linux-source linux-headers-$(uname -r) linux-imag
 case "$version" in
   "9.2")
     # Getting Cuda 9.2
-    wget -c https://developer.nvidia.com/compute/cuda/9.2/Prod/local_installers/cuda_9.2.88_396.26_linux -O cuda_9.2.88_396.26_linux.run
-    # Getting Cuda 9.2 Updates (Patch 1 - May 16th 2018)
-    wget -c https://developer.nvidia.com/compute/cuda/9.2/Prod/patches/1/cuda_9.2.88.1_linux -O cuda_9.2.88.1_linux.run
 
-    chmod +x cuda_9.2.88*
+    wget -c https://developer.nvidia.com/compute/cuda/9.2/Prod2/local_installers/cuda_9.2.148_396.37_linux -O cuda_9.2.148_396.37_linux.run
+    # Getting Cuda 9.2 Updates (Patch 1 - May 16th 2018)
+
+    wget -c https://developer.nvidia.com/compute/cuda/9.2/Prod2/patches/1/cuda_9.2.148.1_linux -O cuda_9.2.148.1_linux.run
+
+    chmod +x cuda_9.2.148*
 
     # Cuda 9.2 Toolkit
     if [ "$distro" = "LinuxMint" -o "$distro" = "Ubuntu" ]; then
       # In this case you need to install the drivers via Driver Manager before it.
-      ./cuda_9.2.88_396.26_linux.run --silent --toolkit --toolkitpath="/opt/cuda-$version" --no-opengl-libs
+      ./cuda_9.2.148_396.37_linux.run --silent --toolkit --toolkitpath="/opt/cuda-$version" --no-opengl-libs
     else
-      ./cuda_9.2.88_396.26_linux.run --silent --driver --toolkit --toolkitpath="/opt/cuda-$version" --no-opengl-libs
+      ./cuda_9.2.148_396.37_linux.run --silent --driver --toolkit --toolkitpath="/opt/cuda-$version" --no-opengl-libs
     fi
     # Patch 1
-    ./cuda_9.2.88.1_linux.run --silent --accept-eula --installdir="/opt/cuda-$version"
+    cuda_9.2.148.1_linux.run --silent --accept-eula --installdir="/opt/cuda-$version"
   ;;
   "9.1")
     # Getting Cuda 9.1
@@ -97,9 +99,11 @@ case "$version" in
   "9.0")
     # Getting Cuda 9.0
     wget -c https://developer.nvidia.com/compute/cuda/9.0/Prod/local_installers/cuda_9.0.176_384.81_linux-run -O cuda_9.0.176_384.81_linux.run
-    # Getting Cuda 9.0 Updates (Patch 1 and 2 - Mar 5th 2018)
+    # Getting Cuda 9.0 Updates (Patch 1, 2, 3 and 4 - Aug 6th 2018)
     wget -c https://developer.nvidia.com/compute/cuda/9.0/Prod/patches/1/cuda_9.0.176.1_linux-run -O cuda_9.0.176.1_linux.run
     wget -c https://developer.nvidia.com/compute/cuda/9.0/Prod/patches/2/cuda_9.0.176.2_linux-run -O cuda_9.0.176.2_linux.run
+    wget -c https://developer.nvidia.com/compute/cuda/9.0/Prod/patches/3/cuda_9.0.176.3_linux-run -O cuda_9.0.176.3_linux.run
+    wget -c https://developer.nvidia.com/compute/cuda/9.0/Prod/patches/4/cuda_9.0.176.4_linux-run -O cuda_9.0.176.4_linux.run
 
     chmod +x cuda_9.0.176*
 
@@ -114,6 +118,10 @@ case "$version" in
     ./cuda_9.0.176.1_linux.run --silent --accept-eula --installdir="/opt/cuda-$version"
     # Patch 2
     ./cuda_9.0.176.2_linux.run --silent --accept-eula --installdir="/opt/cuda-$version"
+    # Patch 3
+    ./cuda_9.0.176.3_linux.run --silent --accept-eula --installdir="/opt/cuda-$version"
+    # Patch 4
+    ./cuda_9.0.176.4_linux.run --silent --accept-eula --installdir="/opt/cuda-$version"
   ;;
   "8.0")
   # Getting Cuda 8.0
