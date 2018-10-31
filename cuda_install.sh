@@ -7,33 +7,29 @@ echo "### Starting Cuda installation ###"
 
 HOW_TO_USE="
 Usage: $0 [ -c | -h | -v ]
--c | --choose-version   Here you can put the Cuda 9 version you want to use. (Ex.: --choose-version 9.1. Available: 8.0, 9.0, 9.1, 9.2 -> default.)
--h | --help             Show this message
--v | --version          Show the program version
-"
+-i | --install-version    Here you can put the Cuda version you want to use. Available: 8.0, 9.0, 9.1, [9.2] -> default not required
+-h | --help               Show this message
+-v | --version            Show the program version
 
-check_version() {
-  version="$1"
-  if test -z "$version"; then
-    version="9.2"
-  fi
-}
+Example: sudo $0 --install-version 9.1
+"
+version="9.2"
 
 while test -n "$1"; do
 
   case "$1" in
-    -c | --choose-version )
+    -i | --install-version )
       shift
-      version="$1"
-
-      check_version "$version"
+      if [ -n "$1" ]; then
+        version="$1"
+      fi
     ;;
     -h | --help )
       echo "$HOW_TO_USE"
       exit 1
     ;;
     -v | --version )
-      echo "Version 1.1"
+      echo "Version 1.2"
       exit 1
     ;;
   esac
@@ -41,7 +37,6 @@ while test -n "$1"; do
   shift
 done
 
-check_version "$version"
 #Getting the distro name
 distro=$(lsb_release --id --short)
 distro_codename="$(lsb_release --codename --short)"
@@ -54,10 +49,8 @@ apt install -y build-essential linux-source linux-headers-$(uname -r) linux-imag
 case "$version" in
   "9.2")
     # Getting Cuda 9.2
-
     wget -c https://developer.nvidia.com/compute/cuda/9.2/Prod2/local_installers/cuda_9.2.148_396.37_linux -O cuda_9.2.148_396.37_linux.run
     # Getting Cuda 9.2 Updates (Patch 1 - May 16th 2018)
-
     wget -c https://developer.nvidia.com/compute/cuda/9.2/Prod2/patches/1/cuda_9.2.148.1_linux -O cuda_9.2.148.1_linux.run
 
     chmod +x cuda_9.2.148*
@@ -70,7 +63,7 @@ case "$version" in
       ./cuda_9.2.148_396.37_linux.run --silent --driver --toolkit --toolkitpath="/opt/cuda-$version" --no-opengl-libs
     fi
     # Patch 1
-    cuda_9.2.148.1_linux.run --silent --accept-eula --installdir="/opt/cuda-$version"
+    ./cuda_9.2.148.1_linux.run --silent --accept-eula --installdir="/opt/cuda-$version"
   ;;
   "9.1")
     # Getting Cuda 9.1
