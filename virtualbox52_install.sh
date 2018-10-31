@@ -1,8 +1,9 @@
 #!/bin/bash
 # Author: Rodrigo Fioravante
 # Email: kbsafioravante@gmail.com
+# This script you need to run as root. sudo don't work.
 
-vbox_version="5.2.16"
+vbox_version="5.2.20"
 distro="$(lsb_release --id --short)"
 distro_codename="$(lsb_release --codename --short)"
 
