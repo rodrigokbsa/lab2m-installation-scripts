@@ -4,52 +4,41 @@
 
 place="$PWD"
 HOW_TO_USE="
-Usage: $0 [-a | -m | -c | -g | -h | -v]
--a | --amber            Amber18 compiling instead of just AmberTools18
--m | --mpi              Amber and AmberTools18 MPI compiling
--c | --cuda             Install Cuda 9.2 (default) and compile Amber18 for it (Using 1 gpu)
--g | --gpus             If you choose --cuda. You'll use this when you have more than one gpu. (Ex.: --gpus 3 if you have 3 gpus)
--h | --help             Show this message
--v | --version          Show the program version
+Usage: $0 [-sc | -mc | -c | -g | -h | -v]
+-g  | --gnu               Amber and AmberTools18 GNU compilation - singlecore (required)
+-m  | --mpi               Amber and AmberTools18 MPI compilation - multicore
+-c  | --cuda              Compile Amber18 (Using 1 gpu). If you have more than one gpu just put the number after this tag.
+-h  | --help              Show this message
+-v  | --version           Show the program version
 
-Example: sudo $0 --amber --mpi --cuda --gpu 2
+Example: sudo $0 --gnu --mpi --cuda 2
 "
-
-check_gpus() {
-  gpus="$1"
-  if test -z "$gpus"; then
-    echo "You forgot to put how much gpus you have."
-    exit 1
-  fi
-}
 
 while test -n "$1"; do
 
   case "$1" in
-    -a | --amber )
-      amber="true"
+    -g | --gnu )
+      gnu="true"
     ;;
     -m | --mpi )
       mpi="true"
       mpi_cores=$(grep -c ^processor /proc/cpuinfo)
     ;;
     -c | --cuda )
-      cuda_version="9.2"
-      cuda="true"
-      gpus="1"
-    ;;
-    -g | --gpus )
       shift
-      gpus="$1"
-
-      check_gpus "$gpus"
+      cuda="true"
+      if [ -z "$1" ]; then
+        gpus="1"
+      else
+        gpus="$1"
+      fi
     ;;
     -h | --help )
       echo "$HOW_TO_USE"
       exit 1
     ;;
     -v | --version )
-      echo "Version 1.1"
+      echo "Version 1.2"
       exit 1
     ;;
   esac
@@ -60,25 +49,26 @@ done
 ### Amber18 (optional) + AmberTools18 ###
 echo "### Starting Amber installation ###"
 
-apt install -y bc csh flex gfortran g++ xorg-dev zlib1g-dev libbz2-dev patch openmpi-bin libopenmpi-dev
+apt install -y bc csh flex gfortran g++ zlib1g-dev libbz2-dev patch openmpi-bin libopenmpi-dev xorg-dev
 
-# Download AmberTools18 and/or Amber18 (or put this files in the same folder than this script)
-if [ "$amber" = "true" ]; then
-  #wget Amber18.tar.bz2 # Get Amber18
-  #wget AmberTools18.tar.bz2 Get AmberTools18
+export AMBERHOME="/opt/amber18"
+amberhome_folders="$(ls $AMBERHOME | wc -l)"
+
+# Download AmberTools18 and/or Amber18 (or put this files in the same folder than this script) (ver se existe pasta vazia em /opt/amber18)
+if [ amberhome_folders -ne "29" ]; then
+  rm -r $AMBERHOME
   tar xvfj AmberTools18.tar.bz2 -C /opt/
   tar xvfj Amber18.tar.bz2 -C /opt/
-else
-  #wget AmberTools18.tar.bz2 Get AmberTools18
-  tar xvfj AmberTools18.tar.bz2 -C /opt/
 fi
 
-# Gnu - This one you ever need to compile!
-export AMBERHOME="/opt/amber18"
 cd "$AMBERHOME"
-yes | ./configure gnu
-source "$AMBERHOME"/amber.sh
-make install
+source "$AMBERHOME/amber.sh"
+
+if [ "$gnu" = "true" ]; then
+  yes | ./configure gnu
+  source "$AMBERHOME/amber.sh"
+  make install
+fi
 
 if [ "$mpi" = "true" ]; then
   yes | ./configure -mpi gnu
@@ -87,8 +77,8 @@ if [ "$mpi" = "true" ]; then
   make install
 fi
 
+# You need to install cuda first by script cuda_install.sh - Amber18 supports 8.0, 9.0, 9.1 and 9.2. Amber need to know where CUDA_HOME environment is.
 if [ "$cuda" = "true" ]; then
-  bash "$place"/cuda_install.sh --choose-version "$cuda_version"
 
   source /etc/profile.d/cuda.sh
 
