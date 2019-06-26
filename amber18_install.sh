@@ -5,8 +5,8 @@
 place="$PWD"
 HOW_TO_USE="
 Usage: $0 [-sc | -mc | -c | -g | -h | -v]
--g  | --gnu               Amber and AmberTools18 GNU compilation - singlecore (required)
--m  | --mpi               Amber and AmberTools18 MPI compilation - multicore
+-g  | --gnu               Amber18 and AmberTools19 GNU compilation - singlecore (required)
+-m  | --mpi               Amber18 and AmberTools19 MPI compilation - multicore
 -c  | --cuda              Compile Amber18 (Using 1 gpu). If you have more than one gpu just put the number after this tag.
 -h  | --help              Show this message
 -v  | --version           Show the program version
@@ -46,19 +46,26 @@ while test -n "$1"; do
   shift
 done
 
-### Amber18 (optional) + AmberTools18 ###
+### Amber18 (optional) + AmberTools19 ###
 echo "### Starting Amber installation ###"
 
 apt install -y bc csh flex gfortran g++ zlib1g-dev libbz2-dev patch openmpi-bin libopenmpi-dev xorg-dev
 
+echo "Creating gcc and g++ compatibility"
+./gcc_changer.sh --select-version 6
+
 export AMBERHOME="/opt/amber18"
 amberhome_folders="$(ls $AMBERHOME | wc -l)"
 
-# Download AmberTools18 and/or Amber18 (or put this files in the same folder than this script) (ver se existe pasta vazia em /opt/amber18)
-if [ amberhome_folders -ne "29" ]; then
-  rm -r $AMBERHOME
-  tar xvfj AmberTools18.tar.bz2 -C /opt/
+if [ ! -d "$AMBERHOME" ]; then
+  tar xvfj AmberTools19.tar.bz2 -C /opt/
   tar xvfj Amber18.tar.bz2 -C /opt/
+elif [ amberhome_folders -ne "29" ]; then
+  rm -r $AMBERHOME
+  tar xvfj AmberTools19.tar.bz2 -C /opt/
+  tar xvfj Amber18.tar.bz2 -C /opt/
+else
+  echo "Segue o baile!"
 fi
 
 cd "$AMBERHOME"
@@ -104,6 +111,10 @@ cp "$AMBERHOME"/amber.sh /etc/profile.d/amber18.sh
 #################
 
 cd "$place"
+
+# Default is 7
+echo "Turning back default gcc and g++ version"
+./gcc_changer.sh
 
 echo "To the environment works corretly in every user you need to restart this computer. Without rebooting you have to run 'source /etc/profile.d/amber18.sh' in each single terminal session."
 echo "### Installation of Amber finished ###"

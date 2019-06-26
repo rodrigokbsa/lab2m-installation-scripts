@@ -58,7 +58,7 @@ case "$version" in
     # Cuda 9.2 Toolkit
     if [ "$distro" = "LinuxMint" -o "$distro" = "Ubuntu" ]; then
       # In this case you need to install the drivers via Driver Manager before it.
-      ./cuda_9.2.148_396.37_linux.run --silent --toolkit --toolkitpath="/opt/cuda-$version" --no-opengl-libs
+      ./cuda_9.2.148_396.37_linux.run --silent --toolkit --toolkitpath="/opt/cuda-$version" --no-opengl-libs --override
     else
       ./cuda_9.2.148_396.37_linux.run --silent --driver --toolkit --toolkitpath="/opt/cuda-$version" --no-opengl-libs
     fi
@@ -78,7 +78,7 @@ case "$version" in
     # Cuda 9.1 Toolkit
     if [ "$distro" = "LinuxMint" -o "$distro" = "Ubuntu" ]; then
       # In this case you need to install the drivers via Driver Manager before it.
-      ./cuda_9.1.85_387.26_linux.run --silent --toolkit --toolkitpath="/opt/cuda-$version" --no-opengl-libs
+      ./cuda_9.1.85_387.26_linux.run --silent --toolkit --toolkitpath="/opt/cuda-$version" --no-opengl-libs --override
     else
       ./cuda_9.1.85_387.26_linux.run --silent --driver --toolkit --toolkitpath="/opt/cuda-$version" --no-opengl-libs
     fi
@@ -103,7 +103,7 @@ case "$version" in
     # Cuda 9.0 Toolkit
     if [ "$distro" = "LinuxMint" -o "$distro" = "Ubuntu" ]; then
       # In this case you need to install the drivers via Driver Manager before it.
-      ./cuda_9.0.176_384.81_linux.run --silent --toolkit --toolkitpath="/opt/cuda-$version" --no-opengl-libs
+      ./cuda_9.0.176_384.81_linux.run --silent --toolkit --toolkitpath="/opt/cuda-$version" --no-opengl-libs --override
     else
       ./cuda_9.0.176_384.81_linux.run --silent --driver --toolkit --toolkitpath="/opt/cuda-$version" --no-opengl-libs
     fi
@@ -133,7 +133,7 @@ case "$version" in
 
   if [ $distro = "LinuxMint" -o $distro = "Ubuntu" ]; then
     # In this case you need to install the drivers via Driver Manager before it.
-    ./cuda_8.0.61_375.26_linux.run --silent --toolkit --toolkitpath="/opt/cuda-$version" --override --no-opengl-libs
+    ./cuda_8.0.61_375.26_linux.run --silent --toolkit --toolkitpath="/opt/cuda-$version" --override --no-opengl-libs --override
   else
     ./cuda_8.0.61_375.26_linux.run --silent --driver --toolkit --toolkitpath="/opt/cuda-$version" --override --no-opengl-libs
   fi
