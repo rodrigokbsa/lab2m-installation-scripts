@@ -24,7 +24,7 @@ while test -n "$1"; do
       exit 1
     ;;
     -v | --version )
-      echo "Version 1.2"
+      echo "Version 1.3"
       exit 1
     ;;
   esac
@@ -32,10 +32,12 @@ while test -n "$1"; do
   shift
 done
 
-apt install -y gcc-"$version" g++-"$version"
+apt install -y gcc-"$version" g++-"$version" gfortran-"$version"
 
 rm /usr/bin/gcc
 rm /usr/bin/g++
+rm /usr/bin/gfortran
 
 ln -s /usr/bin/gcc-"$version" /usr/bin/gcc
 ln -s /usr/bin/g++-"$version" /usr/bin/g++
+ln -s /usr/bin/gfortran-"$version" /usr/bin/gfortran
