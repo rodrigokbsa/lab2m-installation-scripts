@@ -71,6 +71,9 @@ fi
 cd "$AMBERHOME"
 source "$AMBERHOME/amber.sh"
 
+# AmberTools19 Upgrade
+yes | ./update_amber --upgrade
+
 if [ "$gnu" = "true" ]; then
   yes | ./configure gnu
   source "$AMBERHOME/amber.sh"
