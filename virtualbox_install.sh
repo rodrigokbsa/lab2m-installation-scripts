@@ -3,11 +3,10 @@
 # Email: kbsafioravante@gmail.com
 # This script you need to run as root. sudo maybe can't work.
 
-place="$PWD"
 HOW_TO_USE="
 Usage: $0 [-sc | -mc | -c | -g | -h | -v]
 -s  | --stable            Install the latest stable VirtualBox version
--l  | --latest            Install the latest VirtualBox version
+-l  | --latest            Install the latest VirtualBox version (recommended)
 -h  | --help              Show this message
 -v  | --version           Show the program version
 
@@ -19,19 +18,17 @@ while test -n "$1"; do
 
   case "$1" in
     -s | --stable )
-      wget -qO - 'http://download.virtualbox.org/virtualbox/LATEST-STABLE.TXT'
-      vbox_version="$(cat LATEST-STABLE.TXT)"
+      vbox_version=$(wget -qO - 'http://download.virtualbox.org/virtualbox/LATEST-STABLE.TXT')
     ;;
     -l | --latest )
-      wget -qO - 'http://download.virtualbox.org/virtualbox/LATEST.TXT'
-      vbox_version="$(cat LATEST.TXT)"
+      vbox_version=$(wget -qO - 'http://download.virtualbox.org/virtualbox/LATEST.TXT')
     ;;
     -h | --help )
       echo "$HOW_TO_USE"
       exit 1
     ;;
     -v | --version )
-      echo "Version 0.1"
+      echo "Version 0.3"
       exit 1
     ;;
   esac
