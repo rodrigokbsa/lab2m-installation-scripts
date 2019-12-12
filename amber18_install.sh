@@ -11,7 +11,7 @@ Usage: $0 [-sc | -mc | -c | -g | -h | -v]
 -h  | --help              Show this message
 -v  | --version           Show the program version
 
-Example: sudo $0 --gnu --mpi --cuda 2
+Example: sudo $0 --gnu --mpi --cuda 1
 "
 
 while test -n "$1"; do
@@ -51,8 +51,8 @@ echo "### Starting Amber installation ###"
 
 apt install -y bc csh flex gfortran g++ zlib1g-dev libbz2-dev patch openmpi-bin libopenmpi-dev xorg-dev
 
-echo "Creating gcc and g++ compatibility"
-./gcc_changer.sh --select-version 6
+echo "Creating gcc, g++ and gfortran compatibility"
+./gcc_changer.sh --select-version 7
 
 export AMBERHOME="/opt/amber18"
 amberhome_folders="$(ls $AMBERHOME | wc -l)"
@@ -114,10 +114,6 @@ cp "$AMBERHOME"/amber.sh /etc/profile.d/amber18.sh
 #################
 
 cd "$place"
-
-# Default is 7
-echo "Turning back default gcc and g++ version"
-./gcc_changer.sh
 
 echo "To the environment works corretly in every user you need to restart this computer. Without rebooting you have to run 'source /etc/profile.d/amber18.sh' in each single terminal session."
 echo "### Installation of Amber finished ###"
