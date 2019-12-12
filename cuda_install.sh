@@ -6,12 +6,16 @@
 echo "### Starting Cuda installation ###"
 
 HOW_TO_USE="
+Installation of CUDA Toolkit - Use Nvidia Drivers provided by system.
+Debian 10: apt install nvidia-driver
+Ubuntu Bionic: apt install nvidia-driver-430 (recommended) (version: 390, 418 or 430 are available)
+
 Usage: $0 [ -c | -h | -v ]
 -i | --install-version    Here you can put the Cuda version you want to use. Available: 8.0, 9.0, 9.1, [9.2] -> default not required
 -h | --help               Show this message
 -v | --version            Show the program version
 
-Example: sudo $0 --install-version 9.1
+Example: sudo $0 --install-version 9.2
 "
 version="9.2"
 
@@ -37,11 +41,13 @@ while test -n "$1"; do
   shift
 done
 
-#Getting the distro name
-distro=$(lsb_release --id --short)
+distro="$(lsb_release --id --short)"
 distro_codename="$(lsb_release --codename --short)"
-# Show the default display manager
-#cat /etc/X11/default-display-manager
+
+if [ "$distro" = "LinuxMint" ]; then
+  source /etc/os-release
+  distro_codename="$UBUNTU_CODENAME"
+fi
 
 apt install -y build-essential linux-source linux-headers-$(uname -r) linux-image-$(uname -r)
 #apt source linux-image-$(uname -r)
@@ -56,12 +62,9 @@ case "$version" in
     chmod +x cuda_9.2.148*
 
     # Cuda 9.2 Toolkit
-    if [ "$distro" = "LinuxMint" -o "$distro" = "Ubuntu" ]; then
-      # In this case you need to install the drivers via Driver Manager before it.
-      ./cuda_9.2.148_396.37_linux.run --silent --toolkit --toolkitpath="/opt/cuda-$version" --no-opengl-libs --override
-    else
-      ./cuda_9.2.148_396.37_linux.run --silent --driver --toolkit --toolkitpath="/opt/cuda-$version" --no-opengl-libs
-    fi
+    # You need to install the drivers via Driver Manager before it.
+    ./cuda_9.2.148_396.37_linux.run --silent --toolkit --toolkitpath="/opt/cuda-$version" --no-opengl-libs --override
+
     # Patch 1
     ./cuda_9.2.148.1_linux.run --silent --accept-eula --installdir="/opt/cuda-$version"
   ;;
@@ -76,12 +79,9 @@ case "$version" in
     chmod +x cuda_9.1.85*
 
     # Cuda 9.1 Toolkit
-    if [ "$distro" = "LinuxMint" -o "$distro" = "Ubuntu" ]; then
-      # In this case you need to install the drivers via Driver Manager before it.
-      ./cuda_9.1.85_387.26_linux.run --silent --toolkit --toolkitpath="/opt/cuda-$version" --no-opengl-libs --override
-    else
-      ./cuda_9.1.85_387.26_linux.run --silent --driver --toolkit --toolkitpath="/opt/cuda-$version" --no-opengl-libs
-    fi
+    # You need to install the drivers via Driver Manager before it.
+    ./cuda_9.1.85_387.26_linux.run --silent --toolkit --toolkitpath="/opt/cuda-$version" --no-opengl-libs --override
+
     # Patch 1
     ./cuda_9.1.85.1_linux.run --silent --accept-eula --installdir="/opt/cuda-$version"
     # Patch 2
@@ -101,12 +101,9 @@ case "$version" in
     chmod +x cuda_9.0.176*
 
     # Cuda 9.0 Toolkit
-    if [ "$distro" = "LinuxMint" -o "$distro" = "Ubuntu" ]; then
-      # In this case you need to install the drivers via Driver Manager before it.
-      ./cuda_9.0.176_384.81_linux.run --silent --toolkit --toolkitpath="/opt/cuda-$version" --no-opengl-libs --override
-    else
-      ./cuda_9.0.176_384.81_linux.run --silent --driver --toolkit --toolkitpath="/opt/cuda-$version" --no-opengl-libs
-    fi
+    # You need to install the drivers via Driver Manager before it.
+    ./cuda_9.0.176_384.81_linux.run --silent --toolkit --toolkitpath="/opt/cuda-$version" --no-opengl-libs --override
+
     # Patch 1
     ./cuda_9.0.176.1_linux.run --silent --accept-eula --installdir="/opt/cuda-$version"
     # Patch 2
@@ -125,18 +122,16 @@ case "$version" in
   chmod +x cuda_8.0.61*
 
   # Solving errors with perl libs in Debian Stretch and Ubuntu Xenial
-  if [ "$distro_codename" = "stretch" -o "$distro_codename" = "xenial" -o "$distro" = "LinuxMint" ]; then
+  if [ "$distro_codename" = "stretch" -o "$distro_codename" = "xenial" ]; then
     ./cuda_8.0.61*.run --tar mxvf
     cp -rv InstallUtils.pm /usr/lib/x86_64-linux-gnu/perl-base/
     export "$PERL5LIB"
   fi
 
-  if [ $distro = "LinuxMint" -o $distro = "Ubuntu" ]; then
-    # In this case you need to install the drivers via Driver Manager before it.
-    ./cuda_8.0.61_375.26_linux.run --silent --toolkit --toolkitpath="/opt/cuda-$version" --override --no-opengl-libs --override
-  else
-    ./cuda_8.0.61_375.26_linux.run --silent --driver --toolkit --toolkitpath="/opt/cuda-$version" --override --no-opengl-libs
-  fi
+  # Cuda 8.0 Toolkit
+  # You need to install the drivers via Driver Manager before it.
+  ./cuda_8.0.61_375.26_linux.run --silent --toolkit --toolkitpath="/opt/cuda-$version" --override --no-opengl-libs --override
+
   # Patch 2
   ./cuda_8.0.61.2_linux.run --silent --accept-eula --installdir="/opt/cuda-$version"
   ;;
