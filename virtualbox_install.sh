@@ -6,7 +6,7 @@
 HOW_TO_USE="
 Usage: $0 [-sc | -mc | -c | -g | -h | -v]
 -s  | --stable            Install the latest stable VirtualBox version
--l  | --latest            Install the latest VirtualBox version (recommended)
+-l  | --latest            Install the latest VirtualBox version
 -h  | --help              Show this message
 -v  | --version           Show the program version
 
@@ -28,7 +28,7 @@ while test -n "$1"; do
       exit 1
     ;;
     -v | --version )
-      echo "Version 0.3"
+      echo "Version 0.4"
       exit 1
     ;;
   esac
@@ -41,7 +41,7 @@ apt autoremove -y virtualbox*
 distro="$(lsb_release --id --short)"
 distro_codename="$(lsb_release --codename --short)"
 
-if [ "$distro" = "LinuxMint" ]; then
+if [ "$distro".casefold() = "LinuxMint".casefold() ]; then
   source /etc/os-release
   distro_codename="$UBUNTU_CODENAME"
 fi
